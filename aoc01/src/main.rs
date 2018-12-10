@@ -1,20 +1,21 @@
+#[path = "../../utils.rs"]
 mod utils;
 
 use crate::utils::*;
 
 fn main() {
     let input: String = get_input(1).expect("Failed to retrieve input");
-    part1(input);
-    part2(input);
+    part1(&input);
+    part2(&input);
 }
 
-fn part1(input: String) {
+fn part1(input: &String) {
     let lines = input.split("\n");
     let mut sum = 0;
     for line in lines {
-        let operand = &line.parse::<i32>();
-        match operand {
-            Ok(num) => {sum += num;}
+        let addend = &line.parse::<i32>();
+        match addend {
+            Ok(addend) => {sum += addend;}
             Err(_) => {},
         }
     }
@@ -23,7 +24,7 @@ fn part1(input: String) {
         .expect("Failed to submit answer"));
 }
 
-fn part2(input: String) { 
+fn part2(input: &String) { 
     use std::collections::HashSet;
     let mut frequencies: HashSet<i32> = HashSet::new();
     frequencies.insert(0);
@@ -45,5 +46,4 @@ fn part2(input: String) {
     println!("Answer: {}", answer);
     println!("{}", submit_answer(1, 2, format!("{}", answer))
         .expect("Failed to submit answer"));
-
 }
