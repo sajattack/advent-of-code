@@ -3,6 +3,8 @@ mod utils;
 
 use crate::utils::*;
 
+use difference::Difference::*;
+
 fn main() {
     let input: String = get_input(2).expect("Failed to retrieve input");
     part1(&input);
@@ -40,16 +42,19 @@ fn part2(input: &String) {
         for line_b in &lines {
             let changeset = Changeset::new(line_a, line_b, "");
             if changeset.distance == 2 {
-            let mut answer = format!("{}", format!("{:?}", changeset.diffs[0])
-                .replace("Same", "")
-                .trim_matches(|c| c == '(' || c == ')' || c == '"'));
-            answer += format!("{:?}", changeset.diffs[3])
-                .replace("Same", "")
-                .trim_matches(|c| c == '(' || c == ')' || c == '"');
-            println!("{}", answer);
-            println!("{}", submit_answer(2, 2, format!("{}", answer))
-                .expect("Failed to submit answer"));
-            break 'outer;
+                let mut answer: String = match &changeset.diffs[0] {
+                    Same(s1) => s1.to_string(),
+                    _ => "".to_string(),
+
+                };
+                answer += match &changeset.diffs[3] {
+                    Same(s2) => s2.as_str(),
+                    _ => "",
+                };
+                println!("{}", answer);
+                println!("{}", submit_answer(2, 2, format!("{}", answer))
+                    .expect("Failed to submit answer"));
+                break 'outer;
             } 
         }
     }

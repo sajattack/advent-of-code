@@ -39,19 +39,35 @@ impl From<&str> for Claim {
     }
 }
 
+#[derive(Debug, PartialEq, Clone, Copy)]
+enum Tile {
+    Open,
+    Taken(u16),
+    Overlap,
+}
+
+impl Tile {
+    fn is_taken(&self) -> bool {
+        match self {
+            Tile::Taken(_) => true,
+            (_) => false,
+        }
+    }
+}
+
 fn part1(input: &String) {
     let lines = input.split("\n");
     let claims = lines.filter(|s| !s.trim().is_empty())
         .map(|s| Claim::from(s)).collect::<Vec<Claim>>();
-    let mut fabric = vec![['.'; 1000];1000].into_boxed_slice();
+    let mut fabric = vec![[Tile::Open; 1000];1000].into_boxed_slice();
     let mut answer = 0;
     for claim in &claims {
         for x in claim.pos_x as usize..(claim.pos_x + claim.size_x) as usize {
             for y in claim.pos_y as usize ..(claim.pos_y + claim.size_y) as usize {
-                if fabric[x][y] == '.' {
-                    fabric[x][y] = '#'; 
-                } else if fabric[x][y] == '#' {
-                    fabric[x][y] = 'X';
+                if fabric[x][y] == Tile::Open {
+                    fabric[x][y] = Tile::Taken(claim.number); 
+                } else if fabric[x][y].is_taken() {
+                    fabric[x][y] = Tile::Overlap;
                     answer += 1
                 }
             }
@@ -66,31 +82,33 @@ fn part2(input: &String) {
     let lines = input.split("\n");
     let claims = lines.filter(|s| !s.trim().is_empty())
         .map(|s| Claim::from(s)).collect::<Vec<Claim>>();
-    let mut fabric = vec![[-1i16; 1000];1000].into_boxed_slice();
+    let mut fabric = vec![[Tile::Open; 1000];1000].into_boxed_slice();
     let mut answer = 0;
     for claim in &claims {
         for x in claim.pos_x as usize..(claim.pos_x + claim.size_x) as usize {
             for y in claim.pos_y as usize ..(claim.pos_y + claim.size_y) as usize {
-                if fabric[x][y] == -1 {
-                    fabric[x][y] = claim.number as i16;
-                } else if fabric[x][y] > 0 {
-                    fabric[x][y] = -2;
+                if fabric[x][y] == Tile::Open {
+                    fabric[x][y] = Tile::Taken(claim.number); 
+                } else if fabric[x][y].is_taken() {
+                    fabric[x][y] = Tile::Overlap
                 }
             }
         }
     }
     for x in 0..1000 {
         'outer: for y in 0..1000 {
-            if fabric[x][y] > 0 {
-                let claim = &claims[fabric[x as usize][y as usize] as usize -1];
+            if let Tile::Taken(i) = fabric[x][y] {
+                let claim = &claims[i as usize -1];
                 for x_2 in claim.pos_x as usize..(claim.pos_x+claim.size_x) as usize {
                     for y_2 in claim.pos_y as usize ..(claim.pos_y+claim.size_y) as usize {
-                        if fabric[x_2][y_2] != claim.number as i16 {
+                        if !fabric[x_2][y_2].is_taken() {
                             continue 'outer;
                         }
                     }
                 }
-                answer = fabric[x][y]
+                if let Tile::Taken(i) = fabric[x][y] {
+                    answer = i;
+                };
             }
         }
     }
