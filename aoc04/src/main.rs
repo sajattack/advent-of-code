@@ -7,7 +7,7 @@ use std::collections::HashMap;
 
 fn main() {
     let input: String = get_input(4).expect("Failed to retrieve input");
-    //part1(&input);
+    part1(&input);
     part2(&input);
 }
 
