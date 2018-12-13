@@ -3,7 +3,6 @@ mod utils;
 
 use crate::utils::*;
 
-use std::boxed::Box;
 use std::collections::HashMap;
 
 fn main() {
@@ -97,13 +96,13 @@ fn part1(input: &String) {
     println!("{:?}", tmp);
     let answer = tmp.iter().max_by_key(|&(_, count)| count).unwrap().1;
     println!("{}", answer);
-    println!("{}", submit_answer(6, 1, format!("{}", answer));
+    println!("{}", submit_answer(6, 1, format!("{}", answer))
         .expect("Failed to submit answer"));
 }
 
 fn part2(input: &String) { 
     let lines = input.split("\n");
-    let mut points = lines.filter(|s| !s.trim().is_empty()).enumerate()
+    let points = lines.filter(|s| !s.trim().is_empty()).enumerate()
         .map(|(i,s)|(i as u16+1, Point::from(s)))
              .collect::<HashMap<u16,Point>>();
     println!("{:?}", points);
@@ -111,8 +110,6 @@ fn part2(input: &String) {
     let max_y = points.values().max_by_key(|point| point.y).unwrap().y+1;
     println!("{} {}", max_x, max_y);
 
-    let mut grid = vec![vec![false;max_x as usize +1].into_boxed_slice(); max_y as usize+1]
-        .into_boxed_slice();
     let mut area = 0;
     for y in 0..=max_y {
         for x in 0..=max_x {
@@ -124,6 +121,6 @@ fn part2(input: &String) {
             }
         }
     }
-    println!("{}", submit_answer(6, 2, format!("{}", area));
+    println!("{}", submit_answer(6, 2, format!("{}", area))
     .expect("Failed to submit answer"));
 }
