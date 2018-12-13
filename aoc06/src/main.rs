@@ -124,6 +124,6 @@ fn part2(input: &String) {
             }
         }
     }
-    println!("{}", submit_answer(6, 2, format!("{}", area))
+    println!("{}", submit_answer(6, 2, format!("{}", area));
     .expect("Failed to submit answer"));
 }
