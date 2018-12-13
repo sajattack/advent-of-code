@@ -97,7 +97,7 @@ fn part1(input: &String) {
     println!("{:?}", tmp);
     let answer = tmp.iter().max_by_key(|&(_, count)| count).unwrap().1;
     println!("{}", answer);
-    println!("{}", submit_answer(6, 1, format!("{}", answer))
+    println!("{}", submit_answer(6, 1, format!("{}", answer));
         .expect("Failed to submit answer"));
 }
 
