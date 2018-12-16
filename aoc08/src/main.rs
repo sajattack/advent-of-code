@@ -5,7 +5,7 @@ use crate::utils::*;
 
 fn main() {
     let input: String = get_input(8).expect("Failed to retrieve input");
-    //part1(&input);
+    part1(&input);
     part2(&input);
 }
 
