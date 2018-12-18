@@ -7,4 +7,3 @@ edition = "2018"
 [dependencies]
 reqwest = "0.9"
 html2text = "0.1"
-rayon = "1"

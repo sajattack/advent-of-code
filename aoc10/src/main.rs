@@ -1,12 +1,7 @@
 #[path = "../../utils.rs"]
 mod utils;
 
-extern crate rayon;
-
 use crate::utils::get_input;
-
-use rayon::iter::ParallelIterator;
-use rayon::iter::IntoParallelIterator;
 
 fn main() {
     let input: String = get_input(10).expect("Failed to retrieve input");
