@@ -3,8 +3,6 @@ mod utils;
 
 use crate::utils::*;
 
-use std::collections::VecDeque;
-
 fn main() {
     let input: String = get_input(12).expect("Failed to retrieve input");
     part1(&input);
