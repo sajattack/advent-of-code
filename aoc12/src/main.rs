@@ -36,7 +36,7 @@ fn run(input: String, iterations: usize) -> isize {
         }
         let mut next_state = state.clone();
         for note in lines.iter() {
-            for i in (2..state.len()-2) {
+            for i in 2..state.len()-2 {
                 if state.as_bytes()[i-2..=i+2] == note.as_bytes()[0..5] {
                     unsafe {
                         next_state.as_bytes_mut()[i] = note.as_bytes()[9] 
