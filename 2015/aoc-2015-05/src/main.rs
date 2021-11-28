@@ -49,13 +49,14 @@ fn part1_rule3(string: &str) -> bool {
 
 fn part2_rule1(string: &str) -> bool {
     let mut ret = false;
-    for char1 in ALPHABET.chars() {
-        for char2 in ALPHABET.chars() {
+    'outer: for char1 in string.chars() {
+        for char2 in string.chars() {
             let letter_pair_string = format!("{}{}",char1, char2);
             let first_match = string.find(&letter_pair_string);
             if first_match.is_some() {
                 let second_match = string[first_match.unwrap()+2..string.len()].find(&letter_pair_string);
-                ret |= first_match.is_some() && second_match.is_some()
+                ret = first_match.is_some() && second_match.is_some();
+                if ret == true { break 'outer; }
             }
         }
     }
