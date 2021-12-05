@@ -6,55 +6,47 @@ fn main() {
 
 fn part1(input: &str) -> u32 {
     let mut grid = [[0u8;1000];1000];
+    let mut answer = 0;
     for string in input.lines() {
        let line: Line = string.into(); 
        let covered_coords = line.get_covered_coords_p1();
        for point in covered_coords {
            grid[point.1 as usize][point.0 as usize] += 1;
+           if grid[point.1 as usize][point.0 as usize] == 2 {
+               answer += 1
+           }
        }
-    }
-    let mut answer = 0;
-    for y in 0..1000 {
-        for x in 0..1000 {
-            if grid[y][x] >= 2 {
-                answer += 1
-            }
-        }
     }
     answer
 }
 
 fn part2(input: &str) -> u32 {
     let mut grid = [[0u8;1000];1000];
+    let mut answer = 0;
     for string in input.lines() {
        let line: Line = string.into(); 
        let covered_coords = line.get_covered_coords_p2();
        for point in covered_coords {
            grid[point.1 as usize][point.0 as usize] += 1;
+           if grid[point.1 as usize][point.0 as usize] == 2 {
+               answer += 1
+           }
        }
-    }
-    let mut answer = 0;
-    for y in 0..1000 {
-        for x in 0..1000 {
-            if grid[y][x] >= 2 {
-                answer += 1
-            }
-        }
     }
     answer
 }
 
 #[derive(Debug, Clone, Copy)]
 struct Line {
-    x1: isize,
-    y1: isize,
-    x2: isize,
-    y2: isize,
+    x1: i16,
+    y1: i16,
+    x2: i16,
+    y2: i16,
 }
 
 impl From<&str> for Line {
     fn from(string: &str) -> Self {
-        let coords: Vec<isize> = string.split(" -> ").map(|s| s.split(',')).flatten().map(|s| s.parse::<isize>().unwrap()).collect();
+        let coords: Vec<i16> = string.split(" -> ").map(|s| s.split(',')).flatten().map(|s| s.parse::<i16>().unwrap()).collect();
         Self {
             x1: coords[0],
             y1: coords[1],
@@ -65,8 +57,8 @@ impl From<&str> for Line {
 }
 
 impl Line {
-    fn get_covered_coords_p1(&self) -> Vec<(isize, isize)> {
-        let mut covered_coords: Vec<(isize, isize)> = Vec::new();
+    fn get_covered_coords_p1(&self) -> Vec<(i16, i16)> { 
+        let mut covered_coords: Vec<(i16, i16)> = Vec::new();
         if self.x1 == self.x2 {
             if self.y1 < self.y2 {
                 covered_coords = (self.y1..=self.y2).map(|y| (self.x1, y)).collect();
@@ -83,8 +75,8 @@ impl Line {
         }
         covered_coords
     }
-    fn get_covered_coords_p2(&self) -> Vec<(isize, isize)> {
-        let mut covered_coords: Vec<(isize, isize)> = Vec::new();
+    fn get_covered_coords_p2(&self) -> Vec<(i16, i16)> {
+        let mut covered_coords: Vec<(i16, i16)> = Vec::new();
         if self.x1 == self.x2 {
             if self.y1 < self.y2 {
                 covered_coords = (self.y1..=self.y2).map(|y| (self.x1, y)).collect();
