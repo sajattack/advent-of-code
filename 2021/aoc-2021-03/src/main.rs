@@ -13,7 +13,6 @@ fn parse_input(input: &str) -> Vec<u32> {
 fn part1(input: &str) {
     let numbers = parse_input(input);
 
-
     let n_columns = input.lines().next().unwrap().trim().len();
     let n_rows = numbers.len();
     let bitvecs: Vec<BitVec<Msb0, u32>> =
